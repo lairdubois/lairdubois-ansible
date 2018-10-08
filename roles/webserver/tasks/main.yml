@@ -7,3 +7,11 @@
     state: latest
   with_together:
     - nginx
+
+- name: change nginx default configuration
+  become: yes
+  template:
+    dest: /etc/nginx/nginx.conf
+    src: nginx.conf.j2
+    validate: nginx -t -c %s
+  notify: restart nginx
