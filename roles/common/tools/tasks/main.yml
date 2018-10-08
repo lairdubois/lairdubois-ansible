@@ -12,10 +12,15 @@
     - bash-completion
     - ca-certificates
     - curl
+    - default-jre
     - ghostscript
     - git
+    - imagemagick
+    - jpegoptim
     - librsvg2-bin
     - lsb-release
+    - optipng
+    - pngquant
     - tzdata
     - unzip
     - util-linux
