@@ -1,0 +1,12 @@
+---
+
+- name: install tools packages
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_together:
+    - apt-transport-https
+    - curl
+    - ghostscript
+    - librsvg2-bin
