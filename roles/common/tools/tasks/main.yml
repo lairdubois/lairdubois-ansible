@@ -7,6 +7,16 @@
     state: latest
   with_together:
     - apt-transport-https
+    - apt-utils
+    - bash
+    - bash-completion
+    - ca-certificates
     - curl
     - ghostscript
+    - git
     - librsvg2-bin
+    - lsb-release
+    - tzdata
+    - unzip
+    - util-linux
+    - zip
