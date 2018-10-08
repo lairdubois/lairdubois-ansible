@@ -13,4 +13,5 @@
   remote_user: debian
   roles:
     - database
+    - php
     - webserver

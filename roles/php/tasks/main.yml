@@ -1,0 +1,38 @@
+---
+
+- name: add repository GPG key for PHP7.1
+  become: yes
+  apt_key:
+    url: https://packages.sury.org/php/apt.gpg
+
+- name: add repository for PHP7.1
+  become: yes
+  apt_repository:
+    repo: deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main
+  register: php_repo
+
+- name: update apt cache
+  become: yes
+  apt:
+    update_cache: yes
+  when: php_repo.changed
+
+- name: install PHP7.1
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+  with_together:
+    - php7.1
+    - php7.1-cli
+    - php7.1-curl
+    - php7.1-intl
+    - php7.1-gd
+    - php7.1-imagick
+    - php7.1-mysql
+    - php7.1-fpm
+    - php7.1-mbstring
+    - php7.1-xml
+    - php7.1-zip
+    - php7.1-bz2
+    - php7.1-gmp
+    - php7.1-bcmath
