@@ -1,0 +1,9 @@
+---
+
+- name: install nginx packages
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_together:
+    - nginx

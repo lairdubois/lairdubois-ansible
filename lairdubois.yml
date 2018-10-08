@@ -1,6 +1,6 @@
 ---
 
-- name: setting up base system
+- name: Setting up base system
   hosts: [all]
   remote_user: debian
   roles:
@@ -8,3 +8,9 @@
     - common/ssh
     - common/tools
 
+- name: Setting up lairdubois
+  hosts: [all]
+  remote_user: debian
+  roles:
+    - database
+    - webserver

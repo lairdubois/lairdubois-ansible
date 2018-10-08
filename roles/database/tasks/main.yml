@@ -1,0 +1,10 @@
+---
+
+- name: install mariadb packages
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_together:
+    - mariadb-server
+    - mariadb-client
