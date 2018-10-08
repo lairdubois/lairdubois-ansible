@@ -1,0 +1,16 @@
+---
+
+- name: apt upgrade
+  become: yes
+  apt:
+    autoclean: yes
+    autoremove: yes
+    update_cache: yes
+    upgrade: dist
+  tags: upgrade
+
+- name: install unattended-upgrades
+  become: yes
+  apt:
+    pkg: unattended-upgrades
+    state: latest

@@ -1,0 +1,29 @@
+---
+
+- name: configure sshd
+  become: yes
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart ssh
+
+- name: setup global known_hosts
+  become: yes
+  known_hosts:
+    path: /etc/ssh/known_hosts
+    name: "{{ item }}"
+    key: "{{ lookup('pipe', 'ssh-keyscan -T 10 -H -t rsa ' + item) }}"
+    state: present
+  loop:
+    - github.com
+
+- name: add authorized ssh keys from {{ github_keys }}
+  authorized_key:
+    key: "https://github.com/{{ item }}.keys"
+    comment: "github user key for {{ item }}"
+    state: present
+    user: "debian"
+  loop: "{{ github_keys }}"
