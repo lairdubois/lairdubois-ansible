@@ -6,9 +6,5 @@
   roles:
     - common/apt
     - common/ssh
-  vars:
-    ssh_port: 22
-    github_keys:
-      - bbeaulant
-      - marcaurele
+    - common/tools
 

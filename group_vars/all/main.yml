@@ -1,0 +1,7 @@
+---
+# Global variables for lairdubois playbook
+
+ssh_port: 22
+github_keys:
+  - bbeaulant
+  - marcaurele
