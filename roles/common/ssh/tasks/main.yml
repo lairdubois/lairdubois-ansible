@@ -25,5 +25,5 @@
     key: "https://github.com/{{ item }}.keys"
     comment: "github user key for {{ item }}"
     state: present
-    user: "debian"
+    user: "{{ ansible_user_id }}"
   loop: "{{ github_keys }}"
