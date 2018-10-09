@@ -5,3 +5,5 @@ ssh_port: 22
 github_keys:
   - bbeaulant
   - marcaurele
+
+nodejs_version: 6

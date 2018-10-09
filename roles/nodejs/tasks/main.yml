@@ -1,0 +1,27 @@
+---
+
+# Based on reading install script at https://deb.nodesource.com/setup_6.x
+- name: add repository GPG key for NodeJS
+  become: yes
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+
+- name: add repository for NodeJS 
+  become: yes
+  apt_repository:
+    repo: "{{ item }}"
+  loop:
+    - "deb https://deb.nodesource.com/node_{{ nodejs_version }}.x {{ ansible_distribution_release }} main"
+    - "deb-src https://deb.nodesource.com/node_{{ nodejs_version }}.x {{ ansible_distribution_release }} main"
+
+- name: install NodeJS
+  become: yes
+  apt:
+    pkg: nodejs
+
+- name: install Less
+  become: yes
+  npm:
+    name: less
+    global: yes
+    production: yes

@@ -15,5 +15,6 @@
   roles:
     - database
     - php
+    - nodejs
     - webserver
   tags: config
