@@ -7,3 +7,4 @@ github_keys:
   - marcaurele
 
 nodejs_version: 6
+elasticsearch_version: 5

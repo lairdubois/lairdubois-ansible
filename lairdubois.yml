@@ -16,5 +16,6 @@
     - database
     - php
     - nodejs
+    - search
     - webserver
   tags: config

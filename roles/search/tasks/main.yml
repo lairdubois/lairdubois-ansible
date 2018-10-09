@@ -1,0 +1,23 @@
+---
+
+- name: add repository GPG key for Elasticsearch
+  become: yes
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+- name: add repository for Elasticsearch 
+  become: yes
+  apt_repository:
+    repo: "deb https://artifacts.elastic.co/packages/{{ elasticsearch_version }}.x/apt stable main"
+
+- name: install Elasticsearch
+  become: yes
+  apt:
+    pkg: elasticsearch
+
+- name: configure Elasticsearch service
+  become: yes
+  service:
+    name: elasticsearch.service
+    state: started
+    enabled: yes
