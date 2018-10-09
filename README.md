@@ -21,3 +21,7 @@ lairdubois ansible_host=<IP_ADDRESS_OF_THE_SERVER>
 ```
 ansible-playbook -i lairdubois.hosts lairdubois.yml
 ```
+## Notes
+
+### Debian testing
+Shall we used that for the base system instead of the *stable* version to have PHP 7.2 and more up-to-date packages (composer).
