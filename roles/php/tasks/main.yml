@@ -1,5 +1,6 @@
 ---
 
+# Unsure about PHP, shall we use Debian-testing which has PHP 7.2?
 - name: add repository GPG key for PHP7.1
   become: yes
   apt_key:
@@ -48,3 +49,17 @@
     - src: fpm-www.conf.j2
       dest: /etc/php/7.1/fpm/pool.d/www.conf
   notify: restart php
+
+# Unsure about composer, shall we used Debian-testing which includes a more up-to-date version?
+- name: fetch composer install script
+  become: yes
+  get_url:
+    force: yes
+    dest: ~/composer-installer.php
+    url: https://getcomposer.org/installer
+
+- name: install composer
+  become: yes
+  command: php ~/composer-installer.php --install-dir=/usr/local/bin --filename=composer
+  args:
+    creates: /usr/local/bin/composer
