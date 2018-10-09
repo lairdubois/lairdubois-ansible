@@ -36,3 +36,9 @@
     - php7.1-bz2
     - php7.1-gmp
     - php7.1-bcmath
+
+- name: configure FPM
+  become: yes
+  template:
+    src: php-fpm.ini.j2
+    dest: /etc/php/7.1/fpm/php.ini
