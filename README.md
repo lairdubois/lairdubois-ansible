@@ -1,3 +1,5 @@
+***Work in progress***
+
 # lairdubois-ansible
 Ansible playbook to deploy lairdubois.fr infrastructure
 
