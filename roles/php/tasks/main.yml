@@ -10,13 +10,6 @@
   become: yes
   apt_repository:
     repo: deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main
-  register: php_repo
-
-- name: update apt cache
-  become: yes
-  apt:
-    update_cache: yes
-  when: php_repo.changed
 
 - name: install PHP7.1
   become: yes
