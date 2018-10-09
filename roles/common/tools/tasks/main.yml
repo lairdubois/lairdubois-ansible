@@ -21,6 +21,7 @@
     - lsb-release
     - optipng
     - pngquant
+    - rabbitmq-server
     - tzdata
     - unzip
     - util-linux
