@@ -8,3 +8,4 @@ github_keys:
 
 nodejs_version: 6
 elasticsearch_version: 5
+elasticsearch_memory: 1g

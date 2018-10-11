@@ -15,6 +15,19 @@
   apt:
     pkg: elasticsearch
 
+- name: customize memeory for ES
+  become: yes
+  lineinfile:
+    path: /etc/elasticsearch/jvm.options
+    line: "{{ item.line }}"
+    regexp: "{{ item.regexp }}"
+  loop:
+    - line: '-Xms{{ elasticsearch_memory }}'
+      regexp: '^(.*)-Xms'
+    - line: '-Xmx{{ elasticsearch_memory }}'
+      regexp: '^(.*)-Xmx'
+  notify: restart elasticsearch
+
 - name: configure Elasticsearch service
   become: yes
   service:
