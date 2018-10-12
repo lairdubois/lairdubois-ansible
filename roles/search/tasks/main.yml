@@ -15,7 +15,7 @@
   apt:
     pkg: elasticsearch
 
-- name: customize memeory for ES
+- name: customize memory for ES
   become: yes
   lineinfile:
     path: /etc/elasticsearch/jvm.options
