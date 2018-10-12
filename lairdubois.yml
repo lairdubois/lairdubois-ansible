@@ -9,7 +9,7 @@
     - common/tools
   tags: system
 
-- name: Setting up lairdubois
+- name: Setting up lairdubois requirements
   hosts: [all]
   remote_user: debian
   roles:
@@ -19,3 +19,10 @@
     - search
     - webserver
   tags: config
+
+- name: Setting up lairdubois application
+  hosts: [all]
+  remote_user: debian
+  roles:
+    - app/lairdubois
+  tags: app
