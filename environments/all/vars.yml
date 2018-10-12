@@ -5,6 +5,8 @@ ssh_port: 22
 github_keys:
   - bbeaulant
   - marcaurele
+external_keys:
+  - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMpGE8AAeD1oqlh8SNXYaDDvCaPiEHZz+pJQq7zpy1AW bois@laize.org'
 
 nodejs_version: 6
 elasticsearch_version: 5
