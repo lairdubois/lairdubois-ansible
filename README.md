@@ -9,7 +9,11 @@ Ansible playbook to deploy lairdubois.fr infrastructure
 2. Active your virtual environment: `. <path_to_your_virtualenv>/bin/activate`
 3. Install Ansible through pip: `pip install ansible`
 4. You should be able to run: `ansible-playbook --help`
-
+5. Create the `hosts` file in the environment directory to configure the `lairdubois` group with something like:
+```
+[lairdubois]
+lairdubois-demo ansible_host=<server_ip> ansible_user=<remote_user>
+```
 
 ## Run the playbook
 

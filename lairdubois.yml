@@ -2,7 +2,6 @@
 
 - name: Setting up base system
   hosts: [all]
-  remote_user: debian
   roles:
     - common/apt
     - common/ssh
@@ -11,7 +10,6 @@
 
 - name: Setting up lairdubois requirements
   hosts: [all]
-  remote_user: debian
   roles:
     - database
     - php
@@ -22,7 +20,6 @@
 
 - name: Setting up lairdubois application
   hosts: [all]
-  remote_user: debian
   roles:
     - app/lairdubois
   tags: app
