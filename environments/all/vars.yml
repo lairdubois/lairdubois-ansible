@@ -2,11 +2,13 @@
 # Global variables for lairdubois playbook
 
 ssh_port: 22
-github_keys:
-  - bbeaulant
-  - marcaurele
-external_keys:
-  - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMpGE8AAeD1oqlh8SNXYaDDvCaPiEHZz+pJQq7zpy1AW bois@laize.org'
+ssh_keys:
+  - name: https://github.com/bbeaulant.keys
+    key: https://github.com/bbeaulant.keys
+  - name: https://github.com/marcaurele.keys
+    key: https://github.com/marcaurele.keys
+  - name: bois@laize.org
+    key: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMpGE8AAeD1oqlh8SNXYaDDvCaPiEHZz+pJQq7zpy1AW'
 
 php_version: 7.2
 nodejs_version: 6

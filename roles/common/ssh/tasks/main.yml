@@ -22,8 +22,8 @@
 
 - name: add authorized ssh keys from {{ github_keys }}
   authorized_key:
-    key: "https://github.com/{{ item }}.keys"
-    comment: "github user key for {{ item }}"
+    key: "{{ item.key }}"
+    comment: "{{ item.name }}"
     state: present
     user: "{{ ansible_user_id }}"
-  loop: "{{ github_keys }}"
+  loop: "{{ ssh_keys }}"
