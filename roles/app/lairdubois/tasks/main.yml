@@ -1,20 +1,14 @@
 ---
 
-- name: create technical group
-  become: yes
-  group:
-    name: ladb
-
-- name: create technical user
-  become: yes
-  user:
-    name: ladb
-    group: ladb
-
 - name: create web directory /var/www/{{ main_host }}
-  become: true
+  become: yes
   file:
     path: /var/www/{{ main_host }}
     state: directory
-    owner: ladb
-    group: ladb
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: clone lairdubois application
+  git:
+    repo: https://github.com/lairdubois/lairdubois.git
+    dest: /var/www/{{ main_host }}/

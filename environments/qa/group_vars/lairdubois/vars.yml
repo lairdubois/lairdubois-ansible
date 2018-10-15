@@ -1,4 +1,3 @@
 ---
 # Customized variables by environment
 main_host: test.lairdubois.fr
-ladb_user: debian
