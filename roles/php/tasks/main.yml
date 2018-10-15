@@ -1,35 +1,35 @@
 ---
 
 # Unsure about PHP, shall we use Debian-testing which has PHP 7.2?
-- name: add repository GPG key for PHP7.1
+- name: add repository GPG key for PHP
   become: yes
   apt_key:
     url: https://packages.sury.org/php/apt.gpg
 
-- name: add repository for PHP7.1
+- name: add repository for PHP
   become: yes
   apt_repository:
     repo: deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main
 
-- name: install PHP7.1
+- name: install PHP {{ php_version }}
   become: yes
   apt:
     pkg: "{{ item }}"
   with_together:
-    - php7.1
-    - php7.1-cli
-    - php7.1-curl
-    - php7.1-intl
-    - php7.1-gd
-    - php7.1-imagick
-    - php7.1-mysql
-    - php7.1-fpm
-    - php7.1-mbstring
-    - php7.1-xml
-    - php7.1-zip
-    - php7.1-bz2
-    - php7.1-gmp
-    - php7.1-bcmath
+    - "php{{ php_version }}"
+    - "php{{ php_version }}-cli"
+    - "php{{ php_version }}-curl"
+    - "php{{ php_version }}-intl"
+    - "php{{ php_version }}-gd"
+    - "php{{ php_version }}-imagick"
+    - "php{{ php_version }}-mysql"
+    - "php{{ php_version }}-fpm"
+    - "php{{ php_version }}-mbstring"
+    - "php{{ php_version }}-xml"
+    - "php{{ php_version }}-zip"
+    - "php{{ php_version }}-bz2"
+    - "php{{ php_version }}-gmp"
+    - "php{{ php_version }}-bcmath"
 
 - name: configure FPM
   become: yes
@@ -38,9 +38,9 @@
     dest: "{{ item.dest }}"
   loop:
     - src: fpm-php.ini.j2
-      dest: /etc/php/7.1/fpm/php.ini
+      dest: "/etc/php/{{ php_version }}/fpm/php.ini"
     - src: fpm-www.conf.j2
-      dest: /etc/php/7.1/fpm/pool.d/www.conf
+      dest: "/etc/php/{{ php_version }}/fpm/pool.d/www.conf"
   notify: restart php
 
 # Unsure about composer, shall we used Debian-testing which includes a more up-to-date version?

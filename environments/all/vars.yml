@@ -8,6 +8,7 @@ github_keys:
 external_keys:
   - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMpGE8AAeD1oqlh8SNXYaDDvCaPiEHZz+pJQq7zpy1AW bois@laize.org'
 
+php_version: 7.2
 nodejs_version: 6
 elasticsearch_version: 5
 elasticsearch_memory: 2g
