@@ -1,0 +1,162 @@
+# {{ ansible_managed }}
+
+geo $banned_ip {
+    default     0;
+}
+
+map $http_referer $banned_referer {
+    default     0;
+}
+
+upstream websocket {
+  server 127.0.0.1:8080;
+}
+
+server {
+    listen                  443 ssl http2;
+    listen                  [::]:443 http2;
+    server_name             {{ main_host }};
+    root                    {{ app_dir }}web;
+    client_max_body_size    60M;
+
+    ssl_certificate         /etc/letsencrypt/live/{{ domains[0] }}/fullchain.pem;
+    ssl_certificate_key     /etc/letsencrypt/live/{{ domains[0] }}/privkey.pem;
+
+    ssl_session_cache shared:SSL:20m;
+    ssl_session_timeout 180m;
+
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DHE+AES128:!ADH:!AECDH:!MD5;
+
+    if ($banned_ip) {
+        rewrite ^(.*)$ /maintenance.html last;
+        break;
+    }
+    if ($banned_referer) {
+        rewrite ^(.*)$ /maintenance.html last;
+        break;
+    }
+
+    # strip app.php/ prefix if it is present
+    rewrite ^/app\.php/?(.*)$ /$1 permanent;
+
+    # Root location
+    location / {
+        index app.php;
+        try_files $uri @rewriteapp;
+    }
+
+    # WebSocket location
+    location /ws {
+        proxy_pass http://websocket;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade websocket;
+        proxy_set_header Connection upgrade;
+        proxy_read_timeout 4h;
+    }
+
+    # Unresolved Media location
+    location ~ ^/media/cache/resolve/ {
+        rewrite ^(.*)$ /app.php/$1 last;
+    }
+
+    # Deprecated 800x700i Media location
+    location ~ ^/media/cache/800x700i/ {
+        rewrite ^/media/cache/800x700i/(.*)$ /app.php/media/cache/resolve/1024x1024i/$1 permanent;
+    }
+
+    # Resolved Media location
+    location ~ ^/media/cache/ {
+        if (-f $request_filename) {
+            expires 1y;
+            access_log off;
+            add_header Cache-Control "public";
+        }
+        try_files $uri @rewriteimagine;
+    }
+
+    location @rewriteimagine {
+        rewrite ^/media/cache/(.*)$ /app.php/media/cache/resolve/$1 permanent;
+    }
+
+    location @rewriteapp {
+        rewrite ^(.*)$ /app.php/$1 last;
+    }
+
+    location ~ ^/(app|app_dev|config)\.php(/|$) {
+        fastcgi_pass unix:/run/php/php7.1-fpm.sock;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param HTTPS on;
+        fastcgi_param HTTP_SCHEME https;
+        fastcgi_param PATH /usr/bin:;
+        # Prevents URIs that include the front controller. This will 404:
+        # http://domain.tld/app.php/some-path
+        # Remove the internal directive to allow URIs like this
+        internal;
+    }
+
+    # Media: images, icons
+    location ~* (?!sticker)\.(?:jpg|jpeg|ico|cur|svg|svgz)$ {
+        expires 1y;
+        access_log off;
+        add_header Cache-Control "public";
+    }
+
+    # CSS and Javascript
+    location ~* \.(?:css|js)$ {
+        expires 1y;
+        access_log off;
+        add_header Cache-Control "public";
+    }
+
+    error_log /var/log/nginx/{{ main_host }}_error.log;
+    access_log /var/log/nginx/{{ main_host }}_access.log;
+}
+
+server {
+    listen 127.0.0.1;
+
+    location /nginx_status {
+        stub_status on;
+        access_log  off;
+        allow       127.0.0.1;
+        deny        all;
+    }
+
+    location ~ ^/(status|ping)$ {
+        access_log      off;
+        allow           127.0.0.1;
+        deny            all;
+        include         fastcgi_params;
+        fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass    unix:/run/php/php7.1-fpm.sock;
+    }
+
+}
+
+server {
+    listen          80;
+    listen          [::]:80;
+    server_name     {% for d in domains %} {{ d }} *.{{ d }}{% endfor %};
+
+    return          301 https://{{ main_host }}$request_uri;
+}
+
+server {
+    listen                      443 ssl http2;
+    listen                      [::]:443 http2;
+    server_name                 {% for d in domains %} {{ d }} *.{{ d }}{% endfor %};
+
+    ssl_certificate             /etc/letsencrypt/live/{{ domains[0] }}/fullchain.pem;
+    ssl_certificate_key         /etc/letsencrypt/live/{{ domains[0] }}/privkey.pem;
+
+    ssl_session_cache           shared:SSL:20m;
+    ssl_session_timeout         180m;
+
+    ssl_prefer_server_ciphers   on;
+    ssl_ciphers                 ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DHE+AES128:!ADH:!AECDH:!MD5;
+
+    return                      301 https://{{ main_host }}$request_uri;
+}

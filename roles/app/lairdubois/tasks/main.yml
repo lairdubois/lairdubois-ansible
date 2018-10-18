@@ -1,9 +1,9 @@
 ---
 
-- name: create web directory /var/www/{{ main_host }}
+- name: create web directory {{ app_dir }}
   become: yes
   file:
-    path: /var/www/{{ main_host }}
+    path: "{{ app_dir }}"
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
@@ -11,4 +11,19 @@
 - name: clone lairdubois application
   git:
     repo: https://github.com/lairdubois/lairdubois.git
-    dest: /var/www/{{ main_host }}/
+    dest: "{{ app_dir }}"
+
+- name: deploy lairdubois configuration
+  template:
+    dest: "{{ app_dir }}app/config/parameters.yml"
+    src: parameters.yml.j2
+
+- name: perform composer install
+  command: composer --no-interaction install
+  args:
+    chdir: "{{ app_dir }}"
+
+- name: configure nginx
+  template:
+    src: nginx.conf.j2
+    dest: ~/nginx.conf

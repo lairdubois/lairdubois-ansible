@@ -15,5 +15,9 @@ nodejs_version: 6
 elasticsearch_version: 5
 elasticsearch_memory: 2g
 
-domain: lairdubois.fr
+main_domain: lairdubois.fr
+domains:
+  - lairdubois.fr
+  - lairdubois.com
 main_host: www.lairdubois.fr
+app_dir: "/var/www/{{ main_host }}/"
