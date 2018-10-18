@@ -1,3 +1,5 @@
 ---
+env: qa
+
 # Customized variables by environment
 main_host: test.lairdubois.fr

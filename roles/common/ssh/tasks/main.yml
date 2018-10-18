@@ -20,7 +20,7 @@
   loop:
     - github.com
 
-- name: add authorized ssh keys from {{ github_keys }}
+- name: add authorized ssh keys
   authorized_key:
     key: "{{ item.key }}"
     comment: "{{ item.name }}"

@@ -1,3 +1,5 @@
 ---
+env: prod
+
 # Customized variables by environment.
 # For production, it should use the default values.
