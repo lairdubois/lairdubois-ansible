@@ -8,3 +8,15 @@
   with_together:
     - mariadb-server
     - mariadb-client
+
+- name: install python-mysql package to interact with ansible
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_together:
+    - python-mysqldb # until next release
+    - python-pymysql
+    - python3-pymysql
+
+- import_tasks: secure_installation.yml

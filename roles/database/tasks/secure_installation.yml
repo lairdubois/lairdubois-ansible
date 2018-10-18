@@ -1,0 +1,33 @@
+---
+
+# Perform tasks equivalent to mysql_secure_installation
+# It seems that MariaDB-10.1 does not include anynomous user/database anymore
+
+- name: change root password
+  become: yes
+  mysql_user:
+    login_user: root
+    login_password: ''
+    host_all: yes
+    user: root
+    password: '{{ database_root_password }}'
+    update_password: always
+  ignore_errors: yes
+  register: change_default_root_emtpy
+
+- name: remove anonymous user if it exists
+  become: yes
+  mysql_user:
+    login_user: root
+    login_password: '{{ database_root_password }}'
+    host_all: yes
+    user: ''
+    state: absent
+
+- name: remove test database if it exists
+  become: yes
+  mysql_db:
+    login_user: root
+    login_password: '{{ database_root_password }}'
+    db: test
+    state: absent

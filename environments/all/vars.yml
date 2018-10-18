@@ -21,3 +21,5 @@ domains:
   - lairdubois.com
 main_host: www.lairdubois.fr
 app_dir: "/var/www/{{ main_host }}/"
+
+database_root_password: "{{ vault_database_root_password }}"
