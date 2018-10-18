@@ -3,9 +3,9 @@ parameters:
     database_driver: pdo_mysql
     database_host: localhost
     database_port: null
-    database_name: db_fr_lairdubois_www
-    database_user: lairduboisdbuser
-    database_password: lairduboisdbpasswd
+    database_name: {{ ladb_database }}
+    database_user: {{ ladb_database_user }}
+    database_password: {{ vault_database_ladb_database_password }}
     database_path: null
     mailer_transport: smtp
     mailer_host: mail.somewhere.com
@@ -15,7 +15,7 @@ parameters:
     elasticsearch_port: 9200
     websocket_host: 127.0.0.1
     websocket_port: 8080
-    websocket_uri: 'wss://www.lairdubois.fr/ws'
+    websocket_uri: 'wss://{{ main_host }}/ws'
     rabbitmq_host: localhost
     rabbitmq_port: 5672
     rabbitmq_user: rabbitmq-user
@@ -25,7 +25,7 @@ parameters:
     secret: secret-token
     admin_username: marco
     ga_tracking_id: google-analytics-code
-    router.request_context.host: www.lairdubois.fr
+    router.request_context.host: {{ main_host }}
     router.request_context.scheme: https
     node: /usr/bin/node
     node_paths:
