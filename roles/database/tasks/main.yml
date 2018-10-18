@@ -20,3 +20,22 @@
     - python3-pymysql
 
 - import_tasks: secure_installation.yml
+
+- name: create database
+  become: yes
+  mysql_db:
+    name: '{{ item }}'
+    state: present
+  loop: '{{ database_databases }}'
+
+- name: create users
+  become: yes
+  mysql_user:
+    login_user: root
+    login_password: '{{ database_root_password }}'
+    user: '{{ item.user }}'
+    password: '{{ item.password }}'
+    priv: '{{ item.priv }}'
+    state: present
+    host: 'localhost'
+  loop: '{{ database_users }}'

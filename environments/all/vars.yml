@@ -15,6 +15,16 @@ nodejs_version: 6
 elasticsearch_version: 5
 elasticsearch_memory: 2g
 
+# Database related configuration
+database_root_password: "{{ vault_database_root_password }}"
+database_users:
+  - user: "{{ ladb_database_user }}"
+    password: "{{ vault_database_ladb_database_password }}"
+    priv: "{{ ladb_database }}.*:ALL"
+database_databases:
+  - "{{ ladb_database }}"
+
+# Webserver related configuration
 main_domain: lairdubois.fr
 domains:
   - lairdubois.fr
@@ -22,4 +32,6 @@ domains:
 main_host: www.lairdubois.fr
 app_dir: "/var/www/{{ main_host }}/"
 
-database_root_password: "{{ vault_database_root_password }}"
+# L'AirDuBois related configuration
+ladb_database: "ladb_{{ env }}"
+ladb_database_user: "ladb_{{ env }}"
