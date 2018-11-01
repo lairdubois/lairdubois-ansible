@@ -12,13 +12,13 @@ Ansible playbook to deploy lairdubois.fr infrastructure
 5. Create the `hosts` file in the environment directory to configure the `lairdubois` group with something like:
 ```
 [lairdubois]
-lairdubois-demo ansible_host=<server_ip> ansible_user=<remote_user>
+lairdubois-qa ansible_host=<server_ip> ansible_user=<remote_user>
 ```
 
 ## Run the playbook
 
 ```
-ansible-playbook -i environment/qa lairdubois.yml
+ansible-playbook -i environments/qa lairdubois.yml
 ```
 
 
