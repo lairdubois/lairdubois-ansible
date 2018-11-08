@@ -15,7 +15,7 @@
     pkg: "{{ item }}"
     state: present
   with_together:
-    - python-mysqldb # until next release
+#    - python-mysqldb # until next release
     - python-pymysql
     - python3-pymysql
 

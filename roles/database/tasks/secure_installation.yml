@@ -6,8 +6,8 @@
 - name: change root password
   become: yes
   mysql_user:
+    check_implicit_admin: yes
     login_user: root
-    login_password: ''
     host_all: yes
     user: root
     password: '{{ database_root_password }}'
