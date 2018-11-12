@@ -15,6 +15,7 @@
     - php
     - nodejs
     - search
+    - certs
     - webserver
   tags: config
 

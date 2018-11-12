@@ -1,0 +1,30 @@
+---
+
+- name: create configuration directory for certificates
+  become: yes
+  file:
+    path: /etc/certs
+    state: directory
+    owner: root
+    group: root
+    mode: 0711
+
+- name: clone acme.sh tool
+  become: yes
+  git:
+    repo: https://github.com/Neilpang/acme.sh.git
+    dest: ~/acme.sh/
+
+- name: install acme.sh tool
+  become: yes
+  command: ./acme.sh --install
+  register: acme_install
+  args:
+    chdir: ~/acme.sh
+    creates: ~/.acme.sh
+
+- name: generate {% if acme_testing %} TEST {% endif %} certificate for {{ host_aliases }}
+  become: yes
+  command: "~/.acme.sh/acme.sh {% if acme_testing %} --test {% endif %} --issue --dns dns_gandi_livedns --dnssleep 30 --keylength {{ acme_keylength }} --accountemail {{ acme_email_notice }} -d {{ host_aliases | join(' -d ')}} --reloadcmd 'systemctl reload nginx' --certhome /etc/certs/"
+  args:
+    creates: /etc/certs/{{ host_aliases[0] }}_ecc

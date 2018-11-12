@@ -3,4 +3,7 @@ env: qa
 
 # Customized variables by environment
 elasticsearch_memory: 1g
-main_host: test.lairdubois.fr
+acme_email_notice: "{{ vault_acme_email_notice }}"
+main_host: "{{ vault_main_host }}"
+host_aliases:
+  - "{{ vault_main_host }}"
