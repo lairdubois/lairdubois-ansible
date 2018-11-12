@@ -26,3 +26,6 @@ ansible-playbook -K -c local -i host.local playbook.yml --vault-password-file=~/
 
 ### Debian testing
 Shall we used that for the base system instead of the *stable* version to have PHP 7.2 and more up-to-date packages (composer).
+
+### ACME / DNS
+For now, the file for the API key used by gandi are not included in the repository and must be added to the file `~/.acme.sh/account.conf` under the key `GANDI_LIVEDNS_KEY=...`
