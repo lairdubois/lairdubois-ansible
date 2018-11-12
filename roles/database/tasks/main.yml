@@ -15,27 +15,29 @@
     pkg: "{{ item }}"
     state: present
   with_together:
+    - python3-mysqldb # until next release
     - python-mysqldb # until next release
-    - python-pymysql
-    - python3-pymysql
+#    - python-pymysql
+#    - python3-pymysql
 
-- import_tasks: secure_installation.yml
+# MariaDB isn't anymore insecure by default
+#- import_tasks: secure_installation.yml
 
 - name: create database
   become: yes
   mysql_db:
     name: '{{ item }}'
     state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
   loop: '{{ database_databases }}'
 
 - name: create users
   become: yes
   mysql_user:
-    login_user: root
-    login_password: '{{ database_root_password }}'
     user: '{{ item.user }}'
     password: '{{ item.password }}'
     priv: '{{ item.priv }}'
     state: present
     host: 'localhost'
+    login_unix_socket: /var/run/mysqld/mysqld.sock
   loop: '{{ database_users }}'

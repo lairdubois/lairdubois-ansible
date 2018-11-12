@@ -6,20 +6,23 @@
 - name: change root password
   become: yes
   mysql_user:
+    check_implicit_admin: yes
     login_user: root
-    login_password: ''
     host_all: yes
     user: root
+    priv: '*.*:ALL'
     password: '{{ database_root_password }}'
     update_password: always
+    login_unix_socket: /var/run/mysqld/mysqld.sock
   ignore_errors: yes
-  register: change_default_root_emtpy
 
 - name: remove anonymous user if it exists
   become: yes
   mysql_user:
+    check_implicit_admin: yes
     login_user: root
     login_password: '{{ database_root_password }}'
+    login_unix_socket: /var/run/mysqld/mysqld.sock
     host_all: yes
     user: ''
     state: absent
@@ -28,6 +31,14 @@
   become: yes
   mysql_db:
     login_user: root
-    login_password: '{{ database_root_password }}'
+    login_password: ''
+    login_unix_socket: /var/run/mysqld/mysqld.sock
     db: test
     state: absent
+
+- name: create ~/.my.cnf configuration
+  become: yes
+  template:
+    src: my.cnf.j2
+    dest: ~/.my.cnf
+    mode: 0600
