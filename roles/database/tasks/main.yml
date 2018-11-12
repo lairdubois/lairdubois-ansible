@@ -41,3 +41,5 @@
     host: 'localhost'
     login_unix_socket: /var/run/mysqld/mysqld.sock
   loop: '{{ database_users }}'
+  loop_control:
+    label: "{{ item.user }}"
