@@ -18,7 +18,7 @@ lairdubois-qa ansible_host=<server_ip> ansible_user=<remote_user>
 ## Run the playbook
 
 ```
-ansible-playbook -i environments/qa lairdubois.yml
+ansible-playbook -K -c local -i host.local playbook.yml --vault-password-file=~/...
 ```
 
 
