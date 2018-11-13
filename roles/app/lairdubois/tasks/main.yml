@@ -23,4 +23,5 @@
   args:
     chdir: "{{ app_dir }}"
 
+- import_tasks: database.yml
 - import_tasks: webserver.yml
