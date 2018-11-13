@@ -2,7 +2,7 @@
 
 - name: deploy lairdubois configuration
   template:
-    dest: "{{ app_dir }}app/config/parameters.yml"
+    dest: "{{ app_dir }}/app/config/parameters.yml"
     src: parameters.yml.j2
 
 - name: perform composer install

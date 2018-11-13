@@ -1,5 +1,21 @@
 ---
 
+- name: create ladb app group '{{ ladb_app_group }}'
+  become: yes
+  group:
+    name: "{{ ladb_app_group }}"
+    state: present
+
+- name: add users to new ladp app group
+  become: yes
+  user:
+    append: yes
+    groups: "{{ ladb_app_group }}"
+    name: "{{ item }}"
+  with_items:
+    - www-data
+    - "{{ ansible_user }}"
+
 - name: create web directory {{ app_dir }}
   become: yes
   file:
@@ -10,8 +26,17 @@
 
 - name: clone lairdubois application
   git:
-    repo: https://github.com/lairdubois/lairdubois.git
+    repo: https://github.com/marcaurele/lairdubois.git
     dest: "{{ app_dir }}"
+    version: fix-jquery-ui
+
+- name: modify app var rights
+  become: yes
+  file:
+    path: "{{ app_dir }}/var"
+    state: directory
+    group: "{{ ladb_app_group }}"
+    mode: 0775
 
 - import_tasks: app.yml
 - import_tasks: database.yml

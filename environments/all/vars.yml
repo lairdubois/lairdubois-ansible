@@ -39,8 +39,9 @@ host_aliases:
   - lairdubois.fr
 main_host: "{{ host_aliases|first }}"
 
-app_dir: "/var/www/{{ main_host }}/"
+app_dir: "/var/www/{{ main_host }}"
 
 # LAirDuBois related configuration
+ladb_app_group: ladb-app
 ladb_database: "ladb_{{ env }}"
 ladb_database_user: "ladb_{{ env }}"
