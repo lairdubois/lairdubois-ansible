@@ -3,8 +3,8 @@
 
 ssh_port: 22
 ssh_keys:
-  - name: https://github.com/bbeaulant.keys
-    key: https://github.com/bbeaulant.keys
+  - name: boris@lairdubois.fr
+    key: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIzpwPonI4WvmqnbLLcH6acXShj5uvKwMjJ2jDdJabsN'
   - name: https://github.com/marcaurele.keys
     key: https://github.com/marcaurele.keys
   - name: bois@laize.org
