@@ -16,17 +16,16 @@ server {
     listen                  443 ssl http2;
     listen                  [::]:443 http2;
     server_name             {{ main_host }};
-    root                    {{ app_dir }}web;
+    root                    /var/www/{{ main_host }}/web;
     client_max_body_size    60M;
 
-    ssl_certificate         /etc/letsencrypt/live/{{ domains[0] }}/fullchain.pem;
-    ssl_certificate_key     /etc/letsencrypt/live/{{ domains[0] }}/privkey.pem;
+    ssl_certificate         /etc/certs/{{ main_host }}_ecc/fullchain.cer;
+    ssl_certificate_key     /etc/certs/{{ main_host }}_ecc/{{ main_host }}.key;
 
-    ssl_session_cache shared:SSL:20m;
-    ssl_session_timeout 180m;
-
+    ssl_session_timeout 5m;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH+kEECDH+AESGCM:HIGH+kEECDH:HIGH+kEDH:HIGH:!aNULL;
     ssl_prefer_server_ciphers on;
-    ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DHE+AES128:!ADH:!AECDH:!MD5;
 
     if ($banned_ip) {
         rewrite ^(.*)$ /maintenance.html last;
@@ -46,14 +45,14 @@ server {
         try_files $uri @rewriteapp;
     }
 
-    # WebSocket location
-    location /ws {
-        proxy_pass http://websocket;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade websocket;
-        proxy_set_header Connection upgrade;
-        proxy_read_timeout 4h;
-    }
+#    # WebSocket location
+#    location /ws {
+#        proxy_pass http://websocket;
+#        proxy_http_version 1.1;
+#        proxy_set_header Upgrade websocket;
+#        proxy_set_header Connection upgrade;
+#        proxy_read_timeout 4h;
+#    }
 
     # Unresolved Media location
     location ~ ^/media/cache/resolve/ {
@@ -139,24 +138,24 @@ server {
 server {
     listen          80;
     listen          [::]:80;
-    server_name     {% for d in domains %} {{ d }} *.{{ d }}{% endfor %};
+    server_name             {% for d in domains %}{{ d }} *.{{ d }} {% endfor %};
 
     return          301 https://{{ main_host }}$request_uri;
 }
 
 server {
-    listen                      443 ssl http2;
-    listen                      [::]:443 http2;
-    server_name                 {% for d in domains %} {{ d }} *.{{ d }}{% endfor %};
+    listen                  443 ssl http2;
+    listen                  [::]:443 http2;
+    server_name             {% for d in domains %}{{ d }} *.{{ d }} {% endfor %};
 
-    ssl_certificate             /etc/letsencrypt/live/{{ domains[0] }}/fullchain.pem;
-    ssl_certificate_key         /etc/letsencrypt/live/{{ domains[0] }}/privkey.pem;
+    ssl_certificate         /etc/certs/{{ main_host }}_ecc/fullchain.cer;
+    ssl_certificate_key     /etc/certs/{{ main_host }}_ecc/{{ main_host }}.key;
 
-    ssl_session_cache           shared:SSL:20m;
-    ssl_session_timeout         180m;
+    ssl_session_timeout 5m;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH+kEECDH+AESGCM:HIGH+kEECDH:HIGH+kEDH:HIGH:!aNULL;
+    ssl_prefer_server_ciphers on;
 
-    ssl_prefer_server_ciphers   on;
-    ssl_ciphers                 ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DHE+AES128:!ADH:!AECDH:!MD5;
 
-    return                      301 https://{{ main_host }}$request_uri;
+    return          301 https://{{ main_host }}$request_uri;
 }
