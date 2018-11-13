@@ -4,6 +4,7 @@ env: qa
 # Customized variables by environment
 elasticsearch_memory: 1g
 acme_email_notice: "{{ vault_acme_email_notice }}"
-main_host: "{{ vault_main_host }}"
+domains:
+  - "{{ vault_main_domain }}"
 host_aliases:
   - "{{ vault_main_host }}"

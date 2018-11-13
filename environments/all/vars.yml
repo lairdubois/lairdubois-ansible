@@ -30,14 +30,14 @@ acme_testing: true
 acme_keylength: ec-256
 
 # Webserver related configuration
-main_domain: lairdubois.fr
 domains:
   - lairdubois.fr
   - lairdubois.com
-main_host: www.lairdubois.fr
+main_domain: "{{ domains|first }}"
 host_aliases:
   - www.lairdubois.fr
   - lairdubois.fr
+main_host: "{{ host_aliases|first }}"
 
 app_dir: "/var/www/{{ main_host }}/"
 
