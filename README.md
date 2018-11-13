@@ -29,3 +29,6 @@ Shall we used that for the base system instead of the *stable* version to have P
 
 ### ACME / DNS
 For now, the file for the API key used by gandi are not included in the repository and must be added to the file `~/.acme.sh/account.conf` under the key `GANDI_LIVEDNS_KEY=...`
+
+### DKIM keys
+They are not yet generated/managed by the playbook.
