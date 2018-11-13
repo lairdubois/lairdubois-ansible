@@ -23,17 +23,4 @@
   args:
     chdir: "{{ app_dir }}"
 
-- name: install {{ main_host }} nginx configuration
-  become: yes
-  template:
-    dest: "/etc/nginx/sites-available/{{ main_host }}.conf"
-    src: app.nginx.conf.j2
-  notify: reload nginx
-
-- name: link {{ main_host }} nginx configuration
-  become: yes
-  file:
-    src: "/etc/nginx/sites-available/{{ main_host }}.conf"
-    path: "/etc/nginx/sites-enabled/{{ main_host }}.conf"
-    state: link
-  notify: reload nginx
+- import_tasks: webserver.yml
