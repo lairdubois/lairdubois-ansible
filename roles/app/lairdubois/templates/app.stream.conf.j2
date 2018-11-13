@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+stream {
+    upstream websocket_backend {
+        server 127.0.0.1:8080;
+    }
+    server {
+        listen 8443 ssl;
+        proxy_pass websocket_backend;
+        proxy_timeout 4h; # adjust it to your needs
+
+        ssl_certificate         /etc/certs/{{ main_host }}_ecc/fullchain.cer;
+        ssl_certificate_key     /etc/certs/{{ main_host }}_ecc/{{ main_host }}.key;
+
+        ssl_handshake_timeout 5s; # adjust it to your needs
+        proxy_buffer_size 16k;
+        ssl_session_timeout 4h; # adjust it to your needs
+    }
+}
