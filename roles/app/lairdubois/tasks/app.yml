@@ -1,0 +1,21 @@
+---
+
+- name: deploy lairdubois configuration
+  template:
+    dest: "{{ app_dir }}app/config/parameters.yml"
+    src: parameters.yml.j2
+
+- name: perform composer install
+  command: composer --no-interaction install
+  args:
+    chdir: "{{ app_dir }}"
+
+- name: compile and minimize CSS and JS
+  command: bin/console assetic:dump
+  args:
+    chdir: "{{ app_dir }}"
+
+- name: install bundle's assets
+  command: bin/console assets:install
+  args:
+    chdir: "{{ app_dir }}"

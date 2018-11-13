@@ -13,15 +13,6 @@
     repo: https://github.com/lairdubois/lairdubois.git
     dest: "{{ app_dir }}"
 
-- name: deploy lairdubois configuration
-  template:
-    dest: "{{ app_dir }}app/config/parameters.yml"
-    src: parameters.yml.j2
-
-- name: perform composer install
-  command: composer --no-interaction install
-  args:
-    chdir: "{{ app_dir }}"
-
+- import_tasks: app.yml
 - import_tasks: database.yml
 - import_tasks: webserver.yml
