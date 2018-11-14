@@ -1,5 +1,4 @@
 ---
-env: qa
 
 # Customized variables by environment
 elasticsearch_memory: 1g

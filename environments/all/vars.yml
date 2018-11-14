@@ -1,6 +1,8 @@
 ---
 # Global variables for lairdubois playbook
 
+env: dev
+
 ssh_port: 22
 ssh_keys:
   - name: boris@lairdubois.fr
@@ -45,3 +47,4 @@ app_dir: "/var/www/{{ main_host }}"
 ladb_app_group: ladb-app
 ladb_database: "ladb_{{ env }}"
 ladb_database_user: "ladb_{{ env }}"
+ladb_database_password: "{{ vault_database_ladb_database_password }}"
