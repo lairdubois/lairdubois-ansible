@@ -15,8 +15,8 @@
     - php
     - nodejs
     - search
-    - certs
     - webserver
+    - certs
   tags: config
 
 - name: Setting up lairdubois application
