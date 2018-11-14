@@ -1,8 +1,8 @@
 ---
 
 - name: inject database schema
-  command: bin/console doctrine:schema:update --force
+  command: bin/console --no-interaction --env={{ env }} doctrine:schema:update --force
   args:
     chdir: '{{ app_dir }}'
   register: db_schema_action
-  changed_when: '"[OK] Nothing to update" not in db_schema_action.stdout'
+  changed_when: '"Database schema updated successfully" in db_schema_action.stdout'

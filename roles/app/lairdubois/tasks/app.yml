@@ -11,11 +11,23 @@
     chdir: "{{ app_dir }}"
 
 - name: compile and minimize CSS and JS
-  command: bin/console assetic:dump
+  command: bin/console --no-interaction --env={{ env }} assetic:dump
   args:
     chdir: "{{ app_dir }}"
 
 - name: install bundle's assets
-  command: bin/console assets:install
+  command: bin/console --no-interaction --env={{ env }} assets:install
   args:
     chdir: "{{ app_dir }}"
+
+- import_tasks: database.yml
+
+- name: initialize ehcache index
+  command: bin/console --no-interaction --env={{ env }} fos:elastica:populate
+  args:
+    chdir: "{{ app_dir }}"
+
+# - name: create initial user
+#   command: bin/console fos:user:create
+#   args:
+#     chdir: "{{ app_dir }}"
