@@ -30,14 +30,20 @@
     dest: "{{ app_dir }}"
     version: fix-jquery-ui
 
-- name: modify app var rights
+- name: modify app directory rights
   become: yes
   file:
-    path: "{{ app_dir }}/var"
+    path: '{{ item }}'
     state: directory
     group: "{{ ladb_app_group }}"
-    mode: 0775
+    mode: 02775
+  loop:
+    - '{{ app_dir }}/var'
+    - '{{ app_dir }}/var/cache'
+    - '{{ app_dir }}/var/logs'
+  notify:
+    - reload php
+    - reload nginx
 
 - import_tasks: app.yml
-- import_tasks: database.yml
 - import_tasks: webserver.yml
