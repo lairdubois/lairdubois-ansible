@@ -23,7 +23,7 @@
     chdir: ~/acme.sh
     creates: ~/.acme.sh
 
-- name: generate {% if acme_testing %} TEST {% endif %} certificate for {{ host_aliases }}
+- name: generate {% if acme_testing %}TEST {% endif %}certificate for {{ host_aliases }}
   become: yes
   command: "~/.acme.sh/acme.sh {% if acme_testing %} --test {% endif %} --issue --dns dns_gandi_livedns --dnssleep 30 --keylength {{ acme_keylength }} --accountemail {{ acme_email_notice }} -d {{ host_aliases | join(' -d ')}} --reloadcmd 'systemctl reload nginx' --certhome /etc/certs/"
   args:

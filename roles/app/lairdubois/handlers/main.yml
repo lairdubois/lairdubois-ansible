@@ -13,5 +13,5 @@
   service: name='php{{ php_version }}-fpm' state=reloaded
 
 - name: restart php
-  become: restart
+  become: yes
   service: name='php{{ php_version }}-fpm' state=restarted

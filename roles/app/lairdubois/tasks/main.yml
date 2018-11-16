@@ -1,16 +1,16 @@
 ---
 
-- name: set fact for symfony
+- name: set fact for symfony env
   set_fact:
     symfony_env: "{% if debug %}dev{% else %}prod{% endif %}"
 
-- name: create ladb app group '{{ ladb_app_group }}'
+- name: create ladb application group '{{ ladb_app_group }}'
   become: yes
   group:
     name: "{{ ladb_app_group }}"
     state: present
 
-- name: add users to new ladp app group
+- name: add users to new ladp application group
   become: yes
   user:
     append: yes
@@ -34,7 +34,7 @@
     dest: "{{ app_dir }}"
     force: yes
 
-- name: modify app directory rights
+- name: modify application directory rights
   become: yes
   file:
     path: '{{ app_dir }}/var'
@@ -49,7 +49,7 @@
 - import_tasks: app.yml
 - import_tasks: webserver.yml
 
-- name: modify app directory rights
+- name: modify application directory rights - again
   become: yes
   file:
     path: '{{ app_dir }}/var'
