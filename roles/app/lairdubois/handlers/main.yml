@@ -10,4 +10,8 @@
 
 - name: reload php
   become: yes
-  service: name="php{{ php_version }}-fpm" state=reloaded
+  service: name='php{{ php_version }}-fpm' state=reloaded
+
+- name: restart php
+  become: restart
+  service: name='php{{ php_version }}-fpm' state=restarted
