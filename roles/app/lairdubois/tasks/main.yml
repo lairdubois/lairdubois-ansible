@@ -1,5 +1,9 @@
 ---
 
+- name: set fact for symfony
+  set_fact:
+    symfony_env: "{% if debug %}dev{% else %}prod{% endif %}"
+
 - name: create ladb app group '{{ ladb_app_group }}'
   become: yes
   group:

@@ -1,7 +1,7 @@
 ---
 # Global variables for lairdubois playbook
 
-env: dev
+debug: false
 
 ssh_port: 22
 ssh_keys:

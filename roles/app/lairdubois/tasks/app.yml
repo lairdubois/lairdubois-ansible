@@ -11,19 +11,19 @@
     chdir: "{{ app_dir }}"
 
 - name: compile and minimize CSS and JS
-  command: bin/console --no-interaction --env={{ env }} assetic:dump
+  command: bin/console --no-interaction --env={{ symfony_env }} assetic:dump
   args:
     chdir: "{{ app_dir }}"
 
 - name: install bundle's assets
-  command: bin/console --no-interaction --env={{ env }} assets:install
+  command: bin/console --no-interaction --env={{ symfony_env }} assets:install
   args:
     chdir: "{{ app_dir }}"
 
 - import_tasks: database.yml
 
 - name: initialize ehcache index
-  command: bin/console --no-interaction --env={{ env }} fos:elastica:populate
+  command: bin/console --no-interaction --env={{ symfony_env }} fos:elastica:populate
   args:
     chdir: "{{ app_dir }}"
 

@@ -1,7 +1,7 @@
 ---
 
 - name: inject database schema
-  command: bin/console --no-interaction --env={{ env }} doctrine:schema:update --force
+  command: bin/console --no-interaction --env={{ symfony_env }} doctrine:schema:update --force
   args:
     chdir: '{{ app_dir }}'
   register: db_schema_action
