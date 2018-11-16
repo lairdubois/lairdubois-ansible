@@ -1,0 +1,19 @@
+---
+
+- name: create a user
+  hosts: [lairdubois]
+  tasks:
+    - name: create a {%if ladb_super_admin|bool %}super admin {% endif %}user through symfony cli
+      command: bin/console --no-interaction fos:user:create {{ ladb_admin_username }} {{ ladb_admin_email }} {{ ladb_admin_password }} {%if ladb_super_admin|bool %}--super-admin{% endif %}
+      args:
+        chdir: "{{ app_dir }}"
+  vars_prompt:
+    - name: "ladb_admin_username"
+      prompt: "Please choose a username"
+    - name: "ladb_admin_email"
+      prompt: "Please choose an email"
+    - name: "ladb_admin_password"
+      prompt: "Please choose a password"
+      private: yes
+    - name: "ladb_super_admin"
+      prompt: "Should the user be a super admin?"
