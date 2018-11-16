@@ -31,17 +31,22 @@
 - name: clone lairdubois application
   git:
     repo: https://github.com/lairdubois/lairdubois.git
-    dest: "{{ app_dir }}"
+    dest: '{{ app_dir }}'
     force: yes
 
-- name: modify application directory rights
+- name: create and modify extra directories for ladb
   become: yes
   file:
-    path: '{{ app_dir }}/var'
+    path: '{{ item }}'
     state: directory
-    group: "{{ ladb_app_group }}"
+    owner: '{{ ansible_user }}'
+    group: '{{ ladb_app_group }}'
     mode: 02775
     recurse: yes
+  loop:
+    - '{{ app_dir }}/var'
+    - '{{ app_dir }}/uploads'
+    - '{{ app_dir }}/web/media'
   notify:
     - restart php
     - restart nginx
@@ -49,14 +54,16 @@
 - import_tasks: app.yml
 - import_tasks: webserver.yml
 
-- name: modify application directory rights - again
+- name: modify application directory rights for var once again
   become: yes
   file:
-    path: '{{ app_dir }}/var'
+    path: '{{ item }}'
     state: directory
-    group: "{{ ladb_app_group }}"
+    group: '{{ ladb_app_group }}'
     mode: 02775
     recurse: yes
+  loop:
+    - '{{ app_dir }}/var'
   notify:
     - restart php
     - restart nginx
