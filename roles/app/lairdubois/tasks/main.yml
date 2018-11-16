@@ -30,24 +30,33 @@
 
 - name: clone lairdubois application
   git:
-    repo: https://github.com/marcaurele/lairdubois.git
+    repo: https://github.com/lairdubois/lairdubois.git
     dest: "{{ app_dir }}"
-    version: fix-jquery-ui
+    force: yes
 
 - name: modify app directory rights
   become: yes
   file:
-    path: '{{ item }}'
+    path: '{{ app_dir }}/var'
     state: directory
     group: "{{ ladb_app_group }}"
     mode: 02775
-  loop:
-    - '{{ app_dir }}/var'
-    - '{{ app_dir }}/var/cache'
-    - '{{ app_dir }}/var/logs'
+    recurse: yes
   notify:
-    - reload php
-    - reload nginx
+    - restart php
+    - restart nginx
 
 - import_tasks: app.yml
 - import_tasks: webserver.yml
+
+- name: modify app directory rights
+  become: yes
+  file:
+    path: '{{ app_dir }}/var'
+    state: directory
+    group: "{{ ladb_app_group }}"
+    mode: 02775
+    recurse: yes
+  notify:
+    - restart php
+    - restart nginx
