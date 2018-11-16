@@ -6,3 +6,8 @@
     chdir: '{{ app_dir }}'
   register: db_schema_action
   changed_when: '"Database schema updated successfully" in db_schema_action.stdout'
+
+- name: inject extra sessions schema
+  become: yes
+  shell: mysql {{ ladb_database }} < {{ app_dir }}/docs/database/schema-sessions.sql
+  when: db_schema_action.changed
