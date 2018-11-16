@@ -1,7 +1,7 @@
 ---
+# Customized variables by environment
 env: qa
 
-# Customized variables by environment
 elasticsearch_memory: 1g
 acme_email_notice: "{{ vault_acme_email_notice }}"
 domains:

@@ -48,3 +48,29 @@ ladb_app_group: ladb-app
 ladb_database: "ladb_{{ env }}"
 ladb_database_user: "ladb_{{ env }}"
 ladb_database_password: "{{ vault_database_ladb_database_password }}"
+ladb_crontab_install: yes
+ladb_crontab_list:
+  - name: 'swiftmailer:spool:send'
+    job: 'php {{ app_dir }}/bin/console --env={{ symfony_env }} swiftmailer:spool:send &> /dev/null'
+    minute: '*/2'
+  - name: 'ladb:mailing:weeknews'
+    job: 'php {{ app_dir }}/bin/console --env={{ symfony_env }} ladb:mailing:weeknews --force &> /dev/null'
+    minute: 0
+    hour: 4
+    weekday: 5
+  - name: 'ladb:cron:spotlight'
+    job: 'php {{ app_dir }}/bin/console --env={{ symfony_env }} ladb:cron:spotlight --force &> /dev/null'
+    minute: 0
+  - name: 'ladb:cron:notification:populate'
+    job: 'php {{ app_dir }}/bin/console --env={{ symfony_env }} ladb:cron:notification:populate --force &> /dev/null'
+    minute: '*/2'
+  - name: 'ladb:cron:notification:email'
+    job: 'php {{ app_dir }}/bin/console --env={{ symfony_env }} ladb:cron:notification:email --force &> /dev/null'
+    minute: '*/30'
+  - name: 'ladb:cron:sitemaps'
+    job: 'php {{ app_dir }}/bin/console --env={{ symfony_env }} ladb:cron:sitemaps --force &> /dev/null'
+    minute: 0
+    hour: 3
+  - name: 'ladb:cron:workflow:thumbnails'
+    job: 'php {{ app_dir }}/bin/console --env=prod ladb:cron:workflow:thumbnails --force &> /dev/null'
+    minute: '*/5'

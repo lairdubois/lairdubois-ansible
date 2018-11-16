@@ -67,3 +67,16 @@
   notify:
     - restart php
     - restart nginx
+
+- name: crontab for ladb application
+  become: yes
+  cron:
+    name: '{{ item.name }}'
+    job: '{{ item.job }}'
+    minute: '{{ item.minute | default("*") }}'
+    hour: '{{ item.hour | default("*") }}'
+    day: '{{ item.day | default("*") }}'
+    month: '{{ item.month | default("*") }}'
+    weekday: '{{ item.weekday | default("*") }}'
+  loop: '{{ ladb_crontab_list }}'
+  when: ladb_crontab_install

@@ -1,6 +1,7 @@
 ---
+# Customized variables by environment
+
 env: dev
 debug: true
-
-# Customized variables by environment
 main_host: dev.lairdubois.fr
+ladb_crontab_install: no
