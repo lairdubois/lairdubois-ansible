@@ -22,5 +22,5 @@
 - name: Setting up lairdubois application
   hosts: [all]
   roles:
-    - app/lairdubois
+    - lairdubois
   tags: app
