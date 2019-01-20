@@ -1,5 +1,11 @@
 ---
 
+- name: configure symfony environment
+  lineinfile:
+    path: ~/.bashrc
+    line: SYMFONY_ENV={{ symfony_env }}
+    regexp: '^SYMFONY_ENV='
+
 - name: deploy lairdubois configuration
   template:
     dest: "{{ app_dir }}/app/config/parameters.yml"
@@ -8,22 +14,30 @@
 - name: perform composer install
   command: composer --no-interaction install
   args:
-    chdir: "{{ app_dir }}"
+    chdir: '{{ app_dir }}'
+  register: ladb_composer_install
+
+- name: debug
+  debug:
+    var: ladb_composer_install
 
 - name: compile and minimize CSS and JS
-  command: bin/console --no-interaction --env={{ symfony_env }} assetic:dump
+  command: bin/console --no-interaction assetic:dump
   args:
     chdir: "{{ app_dir }}"
+  when: ladb_composer_install.changed
+  register: ladb_composer_compile
 
 - name: install bundle's assets
-  command: bin/console --no-interaction --env={{ symfony_env }} assets:install
+  command: bin/console --no-interaction assets:install
   args:
     chdir: "{{ app_dir }}"
+  when: ladb_composer_compile.changed
 
 - import_tasks: database.yml
 
 - name: initialize ehcache index
-  command: bin/console --no-interaction --env={{ symfony_env }} fos:elastica:populate
+  command: bin/console --no-interaction fos:elastica:populate
   args:
     chdir: "{{ app_dir }}"
 

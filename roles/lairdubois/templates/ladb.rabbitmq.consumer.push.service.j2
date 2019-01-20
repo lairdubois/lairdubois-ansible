@@ -8,7 +8,8 @@ Type=simple
 Restart=on-failure
 RestartSec=30s
 RemainAfterExit=no
-ExecStart=/usr/bin/php {{ app_dir }}/bin/console --env=prod rabbitmq:consumer webpush_notification
+Environment=SYMFONY_ENV={{ symfony_env }}
+ExecStart=/usr/bin/php {{ app_dir }}/bin/console --env={{ symfony_env }} rabbitmq:consumer webpush_notification
 #DynamicUser=yes - to check if ti can be run as a dynamic user with no special rights
 User=www-data
 Group=www-data
