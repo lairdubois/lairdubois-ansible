@@ -80,3 +80,5 @@
     weekday: '{{ item.weekday | default("*") }}'
   loop: '{{ ladb_crontab_list }}'
   when: ladb_crontab_install
+
+- import_tasks: services.yml

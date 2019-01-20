@@ -1,0 +1,28 @@
+---
+
+- name: install systemd services
+  become: yes
+  template:
+    src: '{{ item }}.j2'
+    dest: '/etc/systemd/system/{{ item }}'
+  loop:
+    - ladb.gos.websocket.service
+    - ladb.rabbitmq.consummer.view.service
+    - ladb.rabbitmq.consummer.push.service
+  register: ladb_services
+
+- name: reload systemd daemon
+  become: yes
+  systemd:
+    daemon_reload: yes
+  when: ladb_services.changed
+
+- name: ensure services are running
+  become: yes
+  systemd:
+    name: '{{ item }}'
+    state: started
+  loop:
+    - ladb.gos.websocket.service
+    - ladb.rabbitmq.consummer.view.service
+    - ladb.rabbitmq.consummer.push.service    

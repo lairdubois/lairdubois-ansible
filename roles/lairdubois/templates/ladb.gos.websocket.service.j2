@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+[Unit]
+Description=GoS websocket
+AssertPathExists={{ app_dir }}
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=30s
+RemainAfterExit=no
+ExecStart=/usr/bin/php {{ app_dir }}/bin/console --env=prod gos:websocket:server
+#DynamicUser=yes - to check if ti can be run as a dynamic user with no special rights
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target
