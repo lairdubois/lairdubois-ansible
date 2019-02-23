@@ -1,19 +1,43 @@
 Vagrant.configure(2) do |config|
 
-  # Debian 8
-  config.vm.box = "debian/jessie"
+  # Debian box
+  config.vm.box = "debian/stretch64"
+  config.vm.define "lairdubois-vbox"
 
-  # config.vm.synced_folder ".", "/vagrant", disabled: true
+  # Don't sync anything
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  # Specify SSH port
+  config.vm.network :forwarded_port, guest: 22, host: 3322, id: "ssh"
 
   config.vm.provider "virtualbox" do |vb|
-  	vb.name = "lairdubois-box"
-    #   # Display the VirtualBox GUI when booting the machine
-    #   vb.gui = true
-    #
-    #   # Customize the amount of memory on the VM:
+    vb.name = "lairdubois-devbox"
+    # Customize the amount of memory on the VM:
     # 1.5GB
     vb.memory = "1524"
     vb.cpus = 2
+  end
+
+  # Inject my own SSH keys for root and vagrant
+  config.ssh.insert_key = false
+  config.vm.provision "shell" do |s|
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    s.inline = <<-SHELL
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+      mkdir -p /root/.ssh
+      echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+    SHELL
+  end
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "lairdubois.yml"
+    ansible.verbose = "v"
+    ansible.limit = "all"
+    ansible.inventory_path= "environments/dev"
+    ansible.vault_password_file = "~/Private/ansible/lairdubois"
+    ansible.groups = {
+      "lairdubois" => ["lairdubois-vbox"]
+    }
   end
 
 end

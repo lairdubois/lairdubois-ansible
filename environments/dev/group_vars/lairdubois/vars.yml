@@ -5,3 +5,7 @@ env: dev
 debug: true
 main_host: dev.lairdubois.fr
 ladb_crontab_install: no
+
+# Vault file for DEV value unencrypted
+vault_database_root_password: vagrantroot
+vault_database_ladb_database_password: vagrantladb

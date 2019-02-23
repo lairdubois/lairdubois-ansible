@@ -1,0 +1,5 @@
+# For Vagrant box connection. The extra parameters are given through the vagrant
+# provisioning call.
+
+[lairdubois]
+vagrantbox ansible_host=127.0.0.1 ansible_port=3322
