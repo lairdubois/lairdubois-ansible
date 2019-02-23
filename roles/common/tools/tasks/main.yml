@@ -15,6 +15,7 @@
     - default-jre
     - ghostscript
     - git
+    - htop
     - imagemagick
     - jpegoptim
     - librsvg2-bin

@@ -4,7 +4,6 @@
   become: yes
   apt:
     pkg: "{{ item }}"
-    state: latest
   with_together:
     - mariadb-server
     - mariadb-client
@@ -15,10 +14,8 @@
     pkg: "{{ item }}"
     state: present
   with_together:
-    - python3-mysqldb # until next release
-    - python-mysqldb # until next release
-#    - python-pymysql
-#    - python3-pymysql
+    - python-pymysql
+    - python3-pymysql
 
 # MariaDB isn't anymore insecure by default
 #- import_tasks: secure_installation.yml
