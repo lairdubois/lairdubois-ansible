@@ -13,4 +13,3 @@
   become: yes
   apt:
     pkg: unattended-upgrades
-    state: latest
