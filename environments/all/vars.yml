@@ -11,6 +11,11 @@ ssh_keys:
     key: https://github.com/marcaurele.keys
   - name: bois@laize.org
     key: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMpGE8AAeD1oqlh8SNXYaDDvCaPiEHZz+pJQq7zpy1AW'
+locales:
+  - fr_FR.UTF-8
+  - fr_CH.UTF-8
+  - en_US.UTF-8
+  - en_CA.UTF-8
 
 php_version: 7.2
 nodejs_version: 6
