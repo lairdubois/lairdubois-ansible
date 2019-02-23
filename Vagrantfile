@@ -9,13 +9,13 @@ Vagrant.configure(2) do |config|
 
   # Specify SSH port
   config.vm.network :forwarded_port, guest: 22, host: 3322, id: "ssh"
+  config.vm.network :forwarded_port, guest: 80, host: 3380, id: "http"
+  config.vm.network :forwarded_port, guest: 443, host: 3343, id: "https"
 
   config.vm.provider "virtualbox" do |vb|
     vb.name = "lairdubois-devbox"
-    # Customize the amount of memory on the VM:
-    # 1.5GB
-    vb.memory = "1524"
-    vb.cpus = 2
+    vb.memory = "4096"
+    vb.cpus = 4
   end
 
   # Inject my own SSH keys for root and vagrant
