@@ -1,0 +1,39 @@
+---
+
+- name: install python pip
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+  with_together:
+    - python3-pip
+
+- name: install python openssl lib
+  become: yes
+  pip:
+    name: pyOpenSSL
+
+- name: create configuration directory for certificates
+  become: yes
+  file:
+    path: '/etc/certs/{{ main_host }}'
+    state: directory
+
+- name: Generate an OpenSSL private key.
+  become: yes
+  openssl_privatekey:
+    path: '/etc/certs/{{ main_host }}/privkey.pem'
+
+- name: Generate an OpenSSL CSR.
+  become: yes
+  openssl_csr:
+    path: '/etc/certs/{{ main_host }}/{{ main_host }}.csr'
+    privatekey_path: '/etc/certs/{{ main_host }}/privkey.pem'
+    common_name: "{{ main_host }}"
+
+- name: Generate a Self Signed OpenSSL certificate.
+  become: yes
+  openssl_certificate:
+    path: '/etc/certs/{{ main_host }}/fullchain.pem'
+    privatekey_path: '/etc/certs/{{ main_host }}/privkey.pem'
+    csr_path: '/etc/certs/{{ main_host }}/{{ main_host }}.csr'
+    provider: selfsigned

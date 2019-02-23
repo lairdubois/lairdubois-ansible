@@ -27,6 +27,7 @@ database_databases:
   - "{{ ladb_database }}"
 
 # Certs related configuration
+acme_certificate: yes
 acme_email_notice: info@lairdubois.fr
 acme_testing: true
 acme_keylength: ec-256

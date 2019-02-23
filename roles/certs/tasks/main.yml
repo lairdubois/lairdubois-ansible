@@ -9,43 +9,8 @@
     group: root
     mode: 0711
 
-- name: clone acme.sh tool
-  become: yes
-  git:
-    repo: https://github.com/Neilpang/acme.sh.git
-    dest: ~/acme.sh/
+- import_tasks: acme.yml
+  when: acme_certificate
 
-- name: install acme.sh tool
-  become: yes
-  command: ./acme.sh --install
-  register: acme_install
-  args:
-    chdir: ~/acme.sh
-    creates: ~/.acme.sh
-
-- name: check certificate files
-  stat:
-    get_checksum: no
-    path: '/etc/certs/{{ host_aliases[0] }}_ecc/fullchain.cer'
-  register: cert_check_file
-
-- name: enter gandi live dns key
-  pause:
-    prompt: Enter your gandi livedns key
-    echo: no
-  register: gandi_livedns_key
-  when: not cert_check_file.stat.exists
-
-- name: append gandi live dns key
-  become: yes
-  lineinfile:
-    line: "GANDI_LIVEDNS_KEY='{{ gandi_livedns_key.user_input }}'"
-    path: '~/.acme.sh/account.conf'
-    regexp: '^GANDI_LIVEDNS_KEY='
-  when: not cert_check_file.stat.exists
-
-- name: generate {% if acme_testing %}TEST {% endif %}certificate for {{ host_aliases }}
-  become: yes
-  command: "~/.acme.sh/acme.sh {% if acme_testing %}--test {% endif %}--issue --dns dns_gandi_livedns --dnssleep 30 --keylength {{ acme_keylength }} --accountemail {{ acme_email_notice }} -d {{ host_aliases | join(' -d ')}} --reloadcmd 'systemctl reload nginx' --certhome /etc/certs/"
-  args:
-    creates: /etc/certs/{{ host_aliases[0] }}_ecc/fullchain.cer
+- import_tasks: selfsigned.yml
+  when: not acme_certificate
