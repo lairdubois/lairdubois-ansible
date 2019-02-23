@@ -5,6 +5,7 @@
   roles:
     - common/apt
     - common/ssh
+    - common/locales
     - common/tools
   tags: system
 
