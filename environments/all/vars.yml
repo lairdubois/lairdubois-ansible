@@ -1,5 +1,6 @@
 ---
 # Global variables for lairdubois playbook
+ansible_python_interpreter: /usr/bin/python3
 
 debug: false
 
