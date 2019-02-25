@@ -7,8 +7,8 @@
     dest: '/etc/systemd/system/{{ item }}'
   loop:
     - ladb.gos.websocket.service
-    - ladb.rabbitmq.consummer.view.service
-    - ladb.rabbitmq.consummer.push.service
+    - ladb.rabbitmq.consumer.view.service
+    - ladb.rabbitmq.consumer.push.service
   register: ladb_services
 
 - name: reload systemd daemon
@@ -24,5 +24,5 @@
     state: started
   loop:
     - ladb.gos.websocket.service
-    - ladb.rabbitmq.consummer.view.service
-    - ladb.rabbitmq.consummer.push.service    
+    - ladb.rabbitmq.consumer.view.service
+    - ladb.rabbitmq.consumer.push.service
