@@ -18,22 +18,22 @@
     path: '/etc/certs/{{ main_host }}'
     state: directory
 
-- name: Generate an OpenSSL private key.
+- name: generate an OpenSSL private key
   become: yes
   openssl_privatekey:
-    path: '/etc/certs/{{ main_host }}/privkey.pem'
+    path: '/etc/certs/{{ main_host }}/{{ main_host }}.key'
 
-- name: Generate an OpenSSL CSR.
+- name: generate an OpenSSL CSR
   become: yes
   openssl_csr:
     path: '/etc/certs/{{ main_host }}/{{ main_host }}.csr'
-    privatekey_path: '/etc/certs/{{ main_host }}/privkey.pem'
+    privatekey_path: '/etc/certs/{{ main_host }}/{{ main_host }}.key'
     common_name: "{{ main_host }}"
 
-- name: Generate a Self Signed OpenSSL certificate.
+- name: generate a self-signed OpenSSL certificate
   become: yes
   openssl_certificate:
-    path: '/etc/certs/{{ main_host }}/fullchain.pem'
-    privatekey_path: '/etc/certs/{{ main_host }}/privkey.pem'
+    path: '/etc/certs/{{ main_host }}/fullchain.cer'
+    privatekey_path: '/etc/certs/{{ main_host }}/{{ main_host }}.key'
     csr_path: '/etc/certs/{{ main_host }}/{{ main_host }}.csr'
     provider: selfsigned

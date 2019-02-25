@@ -19,8 +19,8 @@ server {
     root                    /var/www/{{ main_host }}/web;
     client_max_body_size    60M;
 
-    ssl_certificate         /etc/certs/{{ main_host }}_ecc/fullchain.cer;
-    ssl_certificate_key     /etc/certs/{{ main_host }}_ecc/{{ main_host }}.key;
+    ssl_certificate         /etc/certs/{{ main_host }}/fullchain.cer;
+    ssl_certificate_key     /etc/certs/{{ main_host }}/{{ main_host }}.key;
 
     ssl_session_timeout 5m;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -148,8 +148,8 @@ server {
     listen                  [::]:443 http2;
     server_name             {% for d in domains %}{{ d }} *.{{ d }} {% endfor %};
 
-    ssl_certificate         /etc/certs/{{ main_host }}_ecc/fullchain.cer;
-    ssl_certificate_key     /etc/certs/{{ main_host }}_ecc/{{ main_host }}.key;
+    ssl_certificate         /etc/certs/{{ main_host }}/fullchain.cer;
+    ssl_certificate_key     /etc/certs/{{ main_host }}/{{ main_host }}.key;
 
     ssl_session_timeout 5m;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;

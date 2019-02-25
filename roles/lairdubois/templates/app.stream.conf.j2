@@ -9,8 +9,8 @@ stream {
         proxy_pass websocket_backend;
         proxy_timeout 4h; # adjust it to your needs
 
-        ssl_certificate         /etc/certs/{{ main_host }}_ecc/fullchain.cer;
-        ssl_certificate_key     /etc/certs/{{ main_host }}_ecc/{{ main_host }}.key;
+        ssl_certificate         /etc/certs/{{ main_host }}/fullchain.cer;
+        ssl_certificate_key     /etc/certs/{{ main_host }}/{{ main_host }}.key;
 
         ssl_handshake_timeout 5s; # adjust it to your needs
         proxy_buffer_size 16k;
