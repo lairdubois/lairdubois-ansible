@@ -52,6 +52,7 @@ app_dir: "/var/www/{{ main_host }}"
 # LAirDuBois related configuration
 ladb_app_group: ladb-app
 ladb_database: "ladb_{{ env }}"
+ladb_database_port: 3306
 ladb_database_user: "ladb_{{ env }}"
 ladb_database_password: "{{ vault_database_ladb_database_password }}"
 ladb_crontab_install: yes

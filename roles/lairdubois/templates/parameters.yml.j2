@@ -2,7 +2,7 @@
 parameters:
     database_driver: pdo_mysql
     database_host: localhost
-    database_port: null
+    database_port: {{ ladb_database_port }}
     database_name: {{ ladb_database }}
     database_user: {{ ladb_database_user }}
     database_password: {{ ladb_database_password }}
