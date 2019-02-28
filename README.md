@@ -63,6 +63,25 @@ There is no hidden variables in the *vault* files. The variables in those
 encrypted files are defined in the other variable files with the prefix
 `vault_`. You can run a `git grep vault_` to find them all.
 
+### DEV environment
+
+The development environment is based on Vagrant. You can spin up a VM which
+will be automatically provision with ansible with all the configuration
+by running: `vagrant up`. You need to have Vagrant and VirtualBox installed
+on your computer. You will be able to access the website under TLS with a
+self-signed certificate at the address `https://localhost:3443`.
+
+### QA environment
+
+This environment is a copy of the PROD environment to validate configuration
+and settings with a production setup. This one should be used to provision
+a VM from a cloud provider.
+
+## PROD environment
+
+*Not currently yet active.* This environment is used to deploy and manage
+`lairdubois.fr` website.
+
 
 ## Notes
 
