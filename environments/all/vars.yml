@@ -28,9 +28,9 @@ database_root_password: "{{ vault_database_root_password }}"
 database_users:
   - user: "{{ ladb_database_user }}"
     password: "{{ vault_database_ladb_database_password }}"
-    priv: "{{ ladb_database }}.*:ALL"
+    priv: "{{ ladb_database_name }}.*:ALL"
 database_databases:
-  - "{{ ladb_database }}"
+  - "{{ ladb_database_name }}"
 
 # Certs related configuration
 acme_certificate: yes
@@ -52,7 +52,8 @@ app_dir: "/var/www/{{ main_host }}"
 
 # LAirDuBois related configuration
 ladb_app_group: ladb-app
-ladb_database: "ladb_{{ env }}"
+ladb_database_name: "ladb_{{ env }}"
+ladb_database_host: localhost
 ladb_database_port: 3306
 ladb_database_user: "ladb_{{ env }}"
 ladb_database_password: "{{ vault_database_ladb_database_password }}"

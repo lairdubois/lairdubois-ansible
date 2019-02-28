@@ -9,5 +9,5 @@
 
 - name: inject extra sessions schema
   become: yes
-  shell: mysql {{ ladb_database }} < {{ app_dir }}/docs/database/schema-sessions.sql
+  shell: mysql {{ ladb_database_name }} < {{ app_dir }}/docs/database/schema-sessions.sql
   when: db_schema_action.changed

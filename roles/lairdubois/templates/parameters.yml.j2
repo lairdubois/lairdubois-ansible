@@ -1,9 +1,9 @@
 # {{ ansible_managed }}
 parameters:
     database_driver: pdo_mysql
-    database_host: localhost
+    database_host: {{ ladb_database_host }}
     database_port: {{ ladb_database_port }}
-    database_name: {{ ladb_database }}
+    database_name: {{ ladb_database_name }}
     database_user: {{ ladb_database_user }}
     database_password: {{ ladb_database_password }}
     database_path: null
