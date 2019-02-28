@@ -13,6 +13,10 @@ upstream websocket {
 }
 
 server {
+{% if env == 'dev' %}
+    listen                  80;
+    listen                  {{ dev_port }} ssl http2;
+{% endif %}
     listen                  443 ssl http2;
     listen                  [::]:443 http2;
     server_name             {{ main_host }};

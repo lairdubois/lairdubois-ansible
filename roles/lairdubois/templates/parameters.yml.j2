@@ -25,7 +25,7 @@ parameters:
     secret: secret-token
     admin_username: marco
     ga_tracking_id: google-analytics-code
-    router.request_context.host: {{ main_host }}
+    router.request_context.host: '{{ main_host }}{% if env == 'dev' %}:{{ dev_port }}{% endif %}'
     router.request_context.scheme: https
     node: /usr/bin/node
     node_paths:

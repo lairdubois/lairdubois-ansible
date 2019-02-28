@@ -10,7 +10,7 @@ Vagrant.configure(2) do |config|
   # Specify SSH port
   config.vm.network :forwarded_port, guest: 22, host: 3322, id: "ssh"
   config.vm.network :forwarded_port, guest: 80, host: 3380, id: "http"
-  config.vm.network :forwarded_port, guest: 443, host: 3343, id: "https"
+  config.vm.network :forwarded_port, guest: 3443, host: 3443, id: "https"
 
   config.vm.provider "virtualbox" do |vb|
     vb.name = "lairdubois-devbox"

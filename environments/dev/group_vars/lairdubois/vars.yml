@@ -3,6 +3,7 @@
 
 env: dev
 debug: true
+dev_port: 3443
 
 host_aliases:
   - localhost
