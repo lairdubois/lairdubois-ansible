@@ -55,7 +55,7 @@ ansible-playbook -i environments/qa lairdubois-create-user.yml --vault-password-
 
 ## Environments
 
-There are 3 defined environments: dev, qa, prod. Variables in the `all`
+There are 3 defined environments: `dev`, `qa`, `prod`. Variables in the `all`
 directory will be reused in all environments. You can customize by environment
 any variable in their respective directory and files.
 
