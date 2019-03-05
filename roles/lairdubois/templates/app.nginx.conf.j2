@@ -46,7 +46,9 @@ server {
 
     # Root location
     location / {
-        index app.php;
+        {% if env == 'dev' %}index app_dev.php;
+        {% elif env == 'qa' %}index app_beta.php;
+        {% else %}index app.php;{% endif %}
         try_files $uri @rewriteapp;
     }
 
