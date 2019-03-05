@@ -5,12 +5,11 @@ AssertPathExists={{ app_dir }}
 
 [Service]
 Type=simple
-Restart=on-failure
-RestartSec=30s
-RemainAfterExit=no
+Restart=always
+RestartSec=3s
 Environment=SYMFONY_ENV={{ symfony_env }}
 ExecStart=/usr/bin/php {{ app_dir }}/bin/console --env={{ symfony_env }} gos:websocket:server
-#DynamicUser=yes - to check if ti can be run as a dynamic user with no special rights
+#DynamicUser=yes - to check if it can be run as a dynamic user with no special rights
 User=www-data
 Group=www-data
 
