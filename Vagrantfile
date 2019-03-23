@@ -34,7 +34,7 @@ Vagrant.configure(2) do |config|
     ansible.verbose = "v"
     ansible.limit = "all"
     ansible.inventory_path= "environments/dev"
-    ansible.vault_password_file = "~/Private/ansible/lairdubois"
+    # ansible.vault_password_file = "~/Private/ansible/lairdubois"
     ansible.groups = {
       "lairdubois" => ["lairdubois-vbox"]
     }
