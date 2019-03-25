@@ -18,12 +18,13 @@ Vagrant.configure(2) do |config|
     vb.cpus = 4
   end
 
+  config.ssh.forward_agent = true
   # Inject my own SSH keys for root and vagrant
   config.ssh.insert_key = false
   config.vm.provision "shell" do |s|
-    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_ed25519.pub").first.strip
     s.inline = <<-SHELL
-      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+      echo -e "#{ssh_pub_key}" >> /home/vagrant/.ssh/authorized_keys
       mkdir -p /root/.ssh
       echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
     SHELL
