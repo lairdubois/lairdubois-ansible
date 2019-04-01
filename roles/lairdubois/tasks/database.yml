@@ -1,5 +1,16 @@
 ---
 
+- name: copy db backup
+  copy:
+    src: "{{ import_db_file }}"
+    dest: /tmp/db_data.sql.gz
+  when: import_db_file is defined
+
+- name: import db backup
+  become: yes
+  shell: zcat /tmp/db_data.sql.gz | mysql {{ ladb_database_name }}
+  when: import_db_file is defined
+
 - name: inject database schema
   command: bin/console --no-interaction --env={{ symfony_env }} doctrine:schema:update --force
   args:
