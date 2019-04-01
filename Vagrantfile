@@ -36,6 +36,9 @@ Vagrant.configure(2) do |config|
     ansible.limit = "all"
     ansible.inventory_path= "environments/dev"
     # ansible.vault_password_file = "~/Private/ansible/lairdubois"
+    # ansible.extra_vars = {
+    #   import_db_file: "~/backup-ladb.sql.gz"
+    # }
     ansible.groups = {
       "lairdubois" => ["lairdubois-vbox"]
     }
