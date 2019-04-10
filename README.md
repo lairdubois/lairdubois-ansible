@@ -71,6 +71,15 @@ by running: `vagrant up`. You need to have Vagrant and VirtualBox installed
 on your computer. You will be able to access the website under TLS with a
 self-signed certificate at the address `https://localhost:3443`.
 
+To login into the VM (from the directory containing the `Vagrantfile`):
+
+    vagrant ssh
+
+To clean and rebuild the VM:
+
+    vagrant destroy -f && vagrant up
+
+
 ### QA environment
 
 This environment is a copy of the PROD environment to validate configuration
