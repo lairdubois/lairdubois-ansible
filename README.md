@@ -6,8 +6,6 @@ Ansible playbook to deploy
 [lairdubois.fr application](https://github.com/lairdubois/lairdubois). This
 playbook can be read as an installation guide too.
 
-Feel free to try it and improve it.
-
 
 ## Setting up your Ansible environment
 
@@ -25,7 +23,7 @@ lairdubois-<env name> ansible_host=<server_ip> ansible_user=<remote_user>
 
 ## Playbooks
 
-The base template for the template should be a Debian 9.
+The playbook is currently tested with a Debian 9.
 
 ### lairdubois.yml
 
@@ -34,8 +32,10 @@ for lairdubois application. The requirements are:
 - the user used during the SSH login will own the application files
 - the user used for login must be able to run sudo commands (add `-K` in the
   playbook arguments to provide the sudo password if needed)
+- you must have access to the vault password to decrypt some variables.
 
-```bash
+
+```console
 ansible-playbook -i environments/qa lairdubois.yml --vault-password-file=~/...
 ```
 
@@ -49,19 +49,16 @@ user. It will prompt your for 4 informations:
 - a password
 - if the user should be a super admin
 
-```bash
+```console
 ansible-playbook -i environments/qa lairdubois-create-user.yml --vault-password-file=~/...
 ```
 
 ## Environments
 
 There are 3 defined environments: `dev`, `qa`, `prod`. Variables in the `all`
-directory will be reused in all environments. You can customize by environment
+directory will be reused in all environments and can be seen as the default
+values. You can customize by environment
 any variable in their respective directory and files.
-
-There is no hidden variables in the *vault* files. The variables in those
-encrypted files are defined in the other variable files with the prefix
-`vault_`. You can run a `git grep vault_` to find them all.
 
 ### DEV environment
 
@@ -71,13 +68,47 @@ by running: `vagrant up`. You need to have Vagrant and VirtualBox installed
 on your computer. You will be able to access the website under TLS with a
 self-signed certificate at the address `https://localhost:3443`.
 
-To login into the VM (from the directory containing the `Vagrantfile`):
+#### Helpful Vagrnt commands
 
-    vagrant ssh
+For all the commands you must have your shell in the directory containing
+the `Vagrantfile`.
 
-To clean and rebuild the VM:
+##### Start the VM
 
-    vagrant destroy -f && vagrant up
+To start the VM:
+
+```console
+$ vagrant up
+```
+
+If the VM disk must be created, meaning you're running this command for the
+first time or you destroyed the VM, the provisioning section of the `Vagrantfile`
+will also be executed.
+
+##### Provision the VM
+
+If you need to provision again the VM manually, you should run:
+
+```console
+$ vagrant provision
+```
+
+##### Login
+
+To login into the VM:
+
+```console
+$ vagrant ssh
+```
+
+##### Rebuild the image from scratch
+
+To clean the current VM and rebuild the VM:
+
+```console
+$ vagrant destroy -f
+$ vagrant up
+```
 
 
 ### QA environment
@@ -86,10 +117,18 @@ This environment is a copy of the PROD environment to validate configuration
 and settings with a production setup. This one should be used to provision
 a VM from a cloud provider.
 
-## PROD environment
+### PROD environment
 
 *Not currently yet active.* This environment is used to deploy and manage
 `lairdubois.fr` website.
+
+
+## Vault
+
+There is no hidden variables in the *vault* files. The variables in those
+encrypted files are defined in the other variable files with the prefix
+`vault_`. You can run a `git grep vault_` to find them all.
+
 
 
 ## Notes
