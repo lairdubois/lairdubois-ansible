@@ -36,7 +36,9 @@ for lairdubois application. The requirements are:
 
 
 ```console
-ansible-playbook -i environments/qa lairdubois.yml --vault-password-file=~/...
+$ ansible-playbook -i environments/qa lairdubois.yml --ask-vault-pass
+# OR
+$ ansible-playbook -i environments/qa lairdubois.yml --vault-password-file=~/...
 ```
 
 ### lairdubois-create-user.yml
@@ -50,7 +52,9 @@ user. It will prompt your for 4 informations:
 - if the user should be a super admin
 
 ```console
-ansible-playbook -i environments/qa lairdubois-create-user.yml --vault-password-file=~/...
+$ ansible-playbook -i environments/qa lairdubois-create-user.yml --ask-vault-pass
+# OR
+$ ansible-playbook -i environments/qa lairdubois-create-user.yml --vault-password-file=~/...
 ```
 
 ## Environments
@@ -68,7 +72,7 @@ by running: `vagrant up`. You need to have Vagrant and VirtualBox installed
 on your computer. You will be able to access the website under TLS with a
 self-signed certificate at the address `https://localhost:3443`.
 
-#### Helpful Vagrnt commands
+#### Helpful Vagrant commands
 
 For all the commands you must have your shell in the directory containing
 the `Vagrantfile`.
@@ -123,12 +127,40 @@ a VM from a cloud provider.
 `lairdubois.fr` website.
 
 
-## Vault
+## Ansible Vault
 
 There is no hidden variables in the *vault* files. The variables in those
 encrypted files are defined in the other variable files with the prefix
-`vault_`. You can run a `git grep vault_` to find them all.
+`vault_`. You can run a `git grep vault_` to find them all. This means the
+following things:
 
+- there isn't any variable defined in the playbooks which start with `vault_`
+- variables that required to be kept secret are defined in the `vars.yml` files
+  only and in the following format: `my_var_key: {{ vault_my_var_key }}`
+
+### Vault password
+
+The password is stored in the git repository using
+[password store](http://www.passwordstore.org) application. You can retrieve it
+with the command:
+
+```
+pass ansible
+```
+
+### Edition
+
+To edit a vault file, you have to go through the ansible vault command which
+will display the file in a terminal editor like vi or nano depending on your
+settings. Run the following command:
+
+```console
+$ ansible-vault edit environments/prod/group_vars/lairdubois/vault.yml --ask-vault-pass
+# OR
+$ ansible-vault edit environments/prod/group_vars/lairdubois/vault.yml --vault-password-file=~/...
+```
+
+You can look up other commands with: `ansible-vault --help`.
 
 
 ## Notes
