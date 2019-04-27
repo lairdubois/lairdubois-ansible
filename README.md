@@ -144,8 +144,8 @@ The password is stored in the git repository using
 [password store](http://www.passwordstore.org) application. You can retrieve it
 with the command:
 
-```
-pass ansible
+```console
+$ pass ansible
 ```
 
 ### Edition
