@@ -5,7 +5,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "lairdubois-vbox"
 
   # Don't sync anything
-  config.vm.synced_folder "../lairdubois", "/vagrant"
+  config.vm.synced_folder "../lairdubois", "/var/www/localhost"
 
   # Specify SSH port
   config.vm.network :forwarded_port, guest: 22, host: 3322, id: "ssh"

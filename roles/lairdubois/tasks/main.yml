@@ -35,17 +35,6 @@
     force: yes
   when: env != 'dev'
 
-- name: link vagrant directory
-  become: yes
-  file:
-    path: '{{ app_dir }}'
-    src: '/vagrant'
-    state: link
-    force: yes
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-  when: env == 'dev'
-
 - name: create and modify extra directories for ladb
   become: yes
   file:
