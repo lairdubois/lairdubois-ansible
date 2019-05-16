@@ -41,14 +41,12 @@ server {
         break;
     }
 
-    # strip app.php/ prefix if it is present
-    rewrite ^/app\.php/?(.*)$ /$1 permanent;
+    # strip {{ app_index }}/ prefix if it is present
+    rewrite ^/{{ app_index }}/?(.*)$ /$1 permanent;
 
     # Root location
     location / {
-        {% if env == 'dev' %}index app_dev.php;
-        {% elif env == 'qa' %}index app_beta.php;
-        {% else %}index app.php;{% endif %}
+        index {{ app_index }};
         try_files $uri @rewriteapp;
     }
 
@@ -63,12 +61,12 @@ server {
 
     # Unresolved Media location
     location ~ ^/media/cache/resolve/ {
-        rewrite ^(.*)$ /app.php/$1 last;
+        rewrite ^(.*)$ /{{ app_index }}/$1 last;
     }
 
     # Deprecated 800x700i Media location
     location ~ ^/media/cache/800x700i/ {
-        rewrite ^/media/cache/800x700i/(.*)$ /app.php/media/cache/resolve/1024x1024i/$1 permanent;
+        rewrite ^/media/cache/800x700i/(.*)$ /{{ app_index }}/media/cache/resolve/1024x1024i/$1 permanent;
     }
 
     # Resolved Media location
@@ -82,11 +80,11 @@ server {
     }
 
     location @rewriteimagine {
-        rewrite ^/media/cache/(.*)$ /app.php/media/cache/resolve/$1 permanent;
+        rewrite ^/media/cache/(.*)$ /{{ app_index }}/media/cache/resolve/$1 permanent;
     }
 
     location @rewriteapp {
-        rewrite ^(.*)$ /app.php/$1 last;
+        rewrite ^(.*)$ /{{ app_index }}/$1 last;
     }
 
     location ~ ^/(app|app_dev|config)\.php(/|$) {
@@ -137,7 +135,7 @@ server {
         deny            all;
         include         fastcgi_params;
         fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_pass    unix:/run/php/php7.1-fpm.sock;
+        fastcgi_pass    unix:/run/php/php{{ php_version }}-fpm.sock;
     }
 
 }

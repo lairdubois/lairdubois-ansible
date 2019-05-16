@@ -8,3 +8,5 @@ domains:
   - "{{ vault_main_domain }}"
 host_aliases:
   - "{{ vault_main_host }}"
+
+app_index: app_beta.php

@@ -10,6 +10,8 @@ host_aliases:
   - localhost
   - dev.lairdubois.fr
 
+app_index: app_dev.php
+
 ladb_crontab_install: no
 
 # Vault file for DEV value unencrypted
