@@ -3,6 +3,7 @@
 
 env: dev
 debug: true
+vagrant: true
 # Matching Vagrant port forward
 dev_port: 3443
 

@@ -33,7 +33,7 @@
     repo: https://github.com/lairdubois/lairdubois.git
     dest: '{{ app_dir }}'
     force: yes
-  when: env != 'dev'
+  when: vagrant is not defined or not vagrant
 
 - name: create and modify extra directories for ladb
   become: yes
@@ -51,6 +51,7 @@
   notify:
     - restart php
     - restart nginx
+  when: vagrant is not defined or not vagrant
 
 - import_tasks: app.yml
 - import_tasks: webserver.yml
@@ -68,6 +69,7 @@
   notify:
     - restart php
     - restart nginx
+  when: vagrant is not defined or not vagrant
 
 - name: crontab for ladb application
   become: yes

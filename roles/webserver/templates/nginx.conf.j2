@@ -1,6 +1,6 @@
 # {{ ansible_managed }}
 
-user www-data;
+user {% if vagrant is defined and vagrant %}vagrant{% else %}www-data{% endif %};
 worker_processes auto;
 pid /run/nginx.pid;
 include /etc/nginx/modules-enabled/*.conf;
