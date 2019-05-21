@@ -8,6 +8,11 @@ map $http_referer $banned_referer {
     default     0;
 }
 
+map $http_user_agent $banned_agent {
+    default     0;
+    "~https://developers.google.com/./web/snippet/"   1;
+}
+
 upstream websocket {
   server 127.0.0.1:8080;
 }
@@ -33,12 +38,13 @@ server {
     ssl_prefer_server_ciphers on;
 
     if ($banned_ip) {
-        rewrite ^(.*)$ /maintenance.html last;
-        break;
+        return 444;
     }
     if ($banned_referer) {
-        rewrite ^(.*)$ /maintenance.html last;
-        break;
+        return 444
+    }
+    if ($banned_agent) {
+        return 444;
     }
 
     # strip {{ app_index }}/ prefix if it is present
@@ -117,6 +123,13 @@ server {
 
     error_log /var/log/nginx/{{ main_host }}_error.log;
     access_log /var/log/nginx/{{ main_host }}_access.log;
+
+    location ~ ^/\.well-known/acme-challenge/(.+)$ {
+        allow all;
+        alias /var/www/.well-known/acme-challenge/$1;
+        log_not_found off;
+        access_log off;
+    }
 }
 
 server {
@@ -145,6 +158,13 @@ server {
     listen          [::]:80;
     server_name             {% for d in domains %}{{ d }} *.{{ d }} {% endfor %};
 
+    location ~ ^/\.well-known/acme-challenge/(.+)$ {
+        allow all;
+        alias /var/www/.well-known/acme-challenge/$1;
+        log_not_found off;
+        access_log off;
+    }
+
     return          301 https://{{ main_host }}$request_uri;
 }
 
@@ -161,6 +181,12 @@ server {
     ssl_ciphers HIGH+kEECDH+AESGCM:HIGH+kEECDH:HIGH+kEDH:HIGH:!aNULL;
     ssl_prefer_server_ciphers on;
 
+    location ~ ^/\.well-known/acme-challenge/(.+)$ {
+        allow all;
+        alias /var/www/.well-known/acme-challenge/$1;
+        log_not_found off;
+        access_log off;
+    }
 
     return          301 https://{{ main_host }}$request_uri;
 }
