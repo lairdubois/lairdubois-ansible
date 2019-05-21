@@ -42,6 +42,7 @@ acme_keylength: ec-256
 domains:
   - lairdubois.fr
   - lairdubois.com
+  - lairdubois.org
 main_domain: "{{ domains|first }}"
 host_aliases:
   - www.lairdubois.fr
