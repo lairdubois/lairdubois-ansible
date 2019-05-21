@@ -4,10 +4,9 @@ Vagrant.configure(2) do |config|
   config.vm.box = "debian/stretch64"
   config.vm.define "lairdubois-vbox"
 
-  # Don't sync anything
+  # Sync lairdubois app directory which should live in the same parent dir
   config.vm.synced_folder "../lairdubois", "/var/www/localhost", type: "virtualbox"
 
-  # Specify SSH port
   config.vm.network :forwarded_port, guest: 22, host: 3322, id: "ssh"
   config.vm.network :forwarded_port, guest: 80, host: 3380, id: "http"
   config.vm.network :forwarded_port, guest: 3443, host: 3443, id: "https"
@@ -25,13 +24,9 @@ Vagrant.configure(2) do |config|
     ansible.verbose = "v"
     ansible.limit = "all"
     ansible.inventory_path= "environments/dev"
-    # ansible.vault_password_file = "~/Private/ansible/lairdubois"
     # ansible.extra_vars = {
     #   import_db_file: "~/backup-ladb.sql.gz"
     # }
-    ansible.groups = {
-      "lairdubois" => ["lairdubois-vbox"]
-    }
   end
 
 end
