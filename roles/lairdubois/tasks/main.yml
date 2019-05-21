@@ -50,7 +50,7 @@
     - '{{ app_dir }}/web/media'
   notify:
     - restart php
-    - restart nginx
+    - restart webserver
   when: vagrant is not defined or not vagrant
 
 - import_tasks: app.yml
@@ -68,7 +68,7 @@
     - '{{ app_dir }}/var'
   notify:
     - restart php
-    - restart nginx
+    - restart webserver
   when: vagrant is not defined or not vagrant
 
 - name: crontab for ladb application

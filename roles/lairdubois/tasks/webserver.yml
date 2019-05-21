@@ -5,7 +5,7 @@
   template:
     dest: "/etc/nginx/sites-available/{{ main_host }}.conf"
     src: app.nginx.conf.j2
-  notify: reload nginx
+  notify: reload webserver
 
 - name: link {{ main_host }} nginx configuration
   become: yes
@@ -13,4 +13,4 @@
     src: "/etc/nginx/sites-available/{{ main_host }}.conf"
     path: "/etc/nginx/sites-enabled/{{ main_host }}.conf"
     state: link
-  notify: reload nginx
+  notify: reload webserver
